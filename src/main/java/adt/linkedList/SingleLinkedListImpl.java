@@ -10,38 +10,92 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
+		return head.isNIL();
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
+		int tamanho = 0;
+		
+		if (!isEmpty()) {
+			SingleLinkedListNode<T> nodeAux = head;
+			tamanho++;
+			while (!isLastElement(nodeAux)) {
+				tamanho++;
+				nodeAux = nodeAux.next;
+			}
+		}
+		
+		return tamanho;
 	}
 
 	@Override
 	public T search(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
+		T resp = null;
+		SingleLinkedListNode<T> nodeAux = head;
+		
+		while(!isLastElement(nodeAux)) {
+			if (nodeAux.data.equals(element)) {
+				resp = nodeAux.data;
+				break;
+			}
+			nodeAux = nodeAux.next;
+		}
+		
+		return resp;
 	}
 
 	@Override
 	public void insert(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
+		SingleLinkedListNode<T> newNode = new SingleLinkedListNode<T>();
+		newNode.setData(element);
+		if (!newNode.isNIL()) {
+			if (isEmpty()) {
+				head = newNode;
+			}
+			else {
+				SingleLinkedListNode<T> nodeAux = head;
+				while (!isLastElement(nodeAux)) {
+					nodeAux = nodeAux.next;
+				}
+				nodeAux.setNext(newNode);
+			}
+		}
 	}
 
 	@Override
 	public void remove(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
+		SingleLinkedListNode<T> nodeAux = head;
+		SingleLinkedListNode<T> elementAsNode = new SingleLinkedListNode<T>();
+		elementAsNode.setData(element);
+		boolean found = false;
+		
+		while (!isLastElement(nodeAux)) {
+			if (nodeAux.next.equals(elementAsNode)) {
+				found = true;
+				break;
+			}
+		}
+		
+		if (found) {
+			nodeAux.setNext(null);
+		}
 	}
 
 	@Override
 	public T[] toArray() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
+		int tamanho = this.size();
+		T[] array = (T[]) new Object[tamanho];
+		SingleLinkedListNode<T> nodeAux = head;
+		for (int i = 0; i < tamanho; i++) {
+			array[i] = nodeAux.data;
+			nodeAux = nodeAux.next;
+		}
+		return array;
+	}
+	
+	private boolean isLastElement(SingleLinkedListNode<T> node) {
+		return node.next == null;
 	}
 
 	public SingleLinkedListNode<T> getHead() {
