@@ -22,7 +22,7 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 			tamanho++;
 			while (!isLastElement(nodeAux)) {
 				tamanho++;
-				nodeAux = nodeAux.next;
+				nodeAux = nodeAux.getNext();
 			}
 		}
 		
@@ -35,11 +35,11 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 		SingleLinkedListNode<T> nodeAux = head;
 		
 		while(!isLastElement(nodeAux)) {
-			if (nodeAux.data.equals(element)) {
+			if (nodeAux.getData().equals(element)) {
 				resp = nodeAux.data;
 				break;
 			}
-			nodeAux = nodeAux.next;
+			nodeAux = nodeAux.getNext();
 		}
 		
 		return resp;
@@ -56,7 +56,7 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 			else {
 				SingleLinkedListNode<T> nodeAux = head;
 				while (!isLastElement(nodeAux)) {
-					nodeAux = nodeAux.next;
+					nodeAux = nodeAux.getNext();
 				}
 				nodeAux.setNext(newNode);
 			}
@@ -71,7 +71,7 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 		boolean found = false;
 		
 		while (!isLastElement(nodeAux)) {
-			if (nodeAux.next.equals(elementAsNode)) {
+			if (nodeAux.getNext().equals(elementAsNode)) {
 				found = true;
 				break;
 			}
@@ -88,8 +88,8 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 		T[] array = (T[]) new Object[tamanho];
 		SingleLinkedListNode<T> nodeAux = head;
 		for (int i = 0; i < tamanho; i++) {
-			array[i] = nodeAux.data;
-			nodeAux = nodeAux.next;
+			array[i] = nodeAux.getData();
+			nodeAux = nodeAux.getNext();
 		}
 		return array;
 	}
