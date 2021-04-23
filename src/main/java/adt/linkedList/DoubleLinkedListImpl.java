@@ -7,20 +7,43 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 
 	@Override
 	public void insertFirst(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isEmpty()) {
+			DoubleLinkedListNode<T> newNode = new DoubleLinkedListNode<T>(element, null, null);
+			if (!newNode.isNIL()) {
+				this.setHead(newNode);
+				this.setLast(newNode);
+			}
+		} else {
+			DoubleLinkedListNode<T> oldHead = (DoubleLinkedListNode<T>) this.getHead();
+			DoubleLinkedListNode<T> newNode = new DoubleLinkedListNode<T>(element, oldHead, null);
+			if (!newNode.isNIL()) {
+				oldHead.setPrevious(newNode);
+				this.head = newNode;
+			}
+		}
 	}
 
 	@Override
 	public void removeFirst() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (size() == 1) {
+			this.setHead(null);
+			this.setLast(null);
+		} else if (size() > 1) {
+			DoubleLinkedListNode<T> nextFromHead = (DoubleLinkedListNode<T>) this.getHead().getNext();
+			nextFromHead.setPrevious(null);
+			this.setHead(nextFromHead);
+		}
 	}
 
 	@Override
 	public void removeLast() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (size() == 1) {
+			removeFirst();
+		} else if (size() > 1) {
+			DoubleLinkedListNode<T> newLastNode = this.last.getPrevious();
+			newLastNode.setNext(null);
+			this.setLast(newLastNode);
+		}
 	}
 
 	public DoubleLinkedListNode<T> getLast() {

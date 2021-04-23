@@ -20,7 +20,7 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 		if (!isEmpty()) {
 			SingleLinkedListNode<T> nodeAux = head;
 			tamanho++;
-			while (!isLastElement(nodeAux)) {
+			while (!isLastNode(nodeAux)) {
 				tamanho++;
 				nodeAux = nodeAux.getNext();
 			}
@@ -34,7 +34,7 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 		T resp = null;
 		SingleLinkedListNode<T> nodeAux = head;
 		
-		while(!isLastElement(nodeAux)) {
+		while(!isLastNode(nodeAux)) {
 			if (nodeAux.getData().equals(element)) {
 				resp = nodeAux.data;
 				break;
@@ -55,7 +55,7 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 			}
 			else {
 				SingleLinkedListNode<T> nodeAux = head;
-				while (!isLastElement(nodeAux)) {
+				while (!isLastNode(nodeAux)) {
 					nodeAux = nodeAux.getNext();
 				}
 				nodeAux.setNext(newNode);
@@ -70,7 +70,7 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 		elementAsNode.setData(element);
 		boolean found = false;
 		
-		while (!isLastElement(nodeAux)) {
+		while (!isLastNode(nodeAux)) {
 			if (nodeAux.getNext().equals(elementAsNode)) {
 				found = true;
 				break;
@@ -94,7 +94,7 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 		return array;
 	}
 	
-	private boolean isLastElement(SingleLinkedListNode<T> node) {
+	protected boolean isLastNode(SingleLinkedListNode<T> node) {
 		return node.next == null;
 	}
 
