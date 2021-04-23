@@ -14,6 +14,9 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 				this.setLast(newNode);
 			}
 		} else {
+			if (!hasOnlyDoubleNodes()) {
+				convertNodes();
+			}
 			DoubleLinkedListNode<T> oldHead = (DoubleLinkedListNode<T>) this.getHead();
 			DoubleLinkedListNode<T> newNode = new DoubleLinkedListNode<T>(element, oldHead, null);
 			if (!newNode.isNIL()) {
@@ -29,6 +32,9 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 			this.setHead(null);
 			this.setLast(null);
 		} else if (size() > 1) {
+			if (!hasOnlyDoubleNodes()) {
+				convertNodes();
+			}
 			DoubleLinkedListNode<T> nextFromHead = (DoubleLinkedListNode<T>) this.getHead().getNext();
 			nextFromHead.setPrevious(null);
 			this.setHead(nextFromHead);
@@ -40,6 +46,9 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 		if (size() == 1) {
 			removeFirst();
 		} else if (size() > 1) {
+			if (!hasOnlyDoubleNodes()) {
+				convertNodes();
+			}
 			DoubleLinkedListNode<T> newLastNode = this.last.getPrevious();
 			newLastNode.setNext(null);
 			this.setLast(newLastNode);
@@ -55,17 +64,23 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 			this.setLast(newNode);
 		}
 		
-		
 		else if (this.size() > 1) {
 			for (int i = 0; i < values.length; i++) {
-				nodes[i] = new DoubleLinkedListNode<T>(nodes[i].getData(), null, null);
+				nodes[i] = new DoubleLinkedListNode<T>(values[i], null, null);
 			}
 				
 			for (int i = 0; i < nodes.length - 1; i++) {
 				nodes[i].setNext(nodes[i+1]);
 				nodes[i+1].setPrevious(nodes[i]);
 			}
+			
+			this.setHead(nodes[0]);
+			this.setLast(nodes[nodes.length - 1]);
 		}
+	}
+	
+	private boolean hasOnlyDoubleNodes() {
+		return (this.getHead() instanceof DoubleLinkedListNode) && (this.getLast() instanceof DoubleLinkedListNode);
 	}
 
 	public DoubleLinkedListNode<T> getLast() {
