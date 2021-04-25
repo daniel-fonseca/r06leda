@@ -125,11 +125,11 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 		this.next = next;
 	}
 	
-	private boolean hasNext() {
+	protected boolean hasNext() {
 		return this.next != null;
 	}
 	
-	private boolean isNull() {
+	protected boolean isNull() {
 		return this.data == null;
 	}
 
