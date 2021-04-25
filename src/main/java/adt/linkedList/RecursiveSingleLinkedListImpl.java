@@ -35,10 +35,12 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 	@Override
 	public T search(T element) {
 		T resp = null;
-		if (this.data.equals(element)) {
-			resp = this.data;
-		} else if (this.hasNext()) {
-			resp = this.next.search(element);
+		if (!this.isEmpty()) {
+			if (this.data.equals(element)) {
+				resp = this.data;
+			} else if (this.hasNext()) {
+				resp = this.next.search(element);
+			}
 		}
 		
 		return resp;
@@ -70,20 +72,27 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 
 	@Override
 	public void remove(T element) {
-		if (this.search(element) != null) {
-			if (this.getData().equals(element)) {
-				if (this.hasNext()) {
-					this.setData(this.next.data);
-					this.setNext(this.next.next);
+		if (!this.isEmpty()) {
+
+			if (this.search(element) != null) {
+				if (this.getData().equals(element)) {
+					if (this.hasNext()) {
+						this.setData(this.next.data);
+						this.setNext(this.next.next);
+					} else {
+						this.setData(null);
+					}
+				} else if (this.next.getData().equals(element)) {
+					if (!this.next.hasNext()) {
+						this.setNext(null);
+					} else {
+						this.setNext(this.next.getNext());
+					}
+					
 				} else {
-					this.setData(null);
-				}
-			} else if (this.next.getData().equals(element)) {
-				this.setNext(null);
-				
-			} else {
-				if (this.hasNext()) {
-					this.next.remove(element);
+					if (this.hasNext()) {
+						this.next.remove(element);
+					}
 				}
 			}
 		}
@@ -132,5 +141,6 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 	protected boolean isNull() {
 		return this.data == null;
 	}
+	
 
 }

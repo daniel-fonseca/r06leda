@@ -31,15 +31,22 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 
 	@Override
 	public T search(T element) {
+		if (this.isEmpty()) {
+			return null;
+		}
 		T resp = null;
 		SingleLinkedListNode<T> nodeAux = head;
 		
+		if (nodeAux.getData().equals(element)) {
+			return nodeAux.getData();
+		}
+		
 		while(!isLastNode(nodeAux)) {
+			nodeAux = nodeAux.getNext();
 			if (nodeAux.getData().equals(element)) {
 				resp = nodeAux.data;
 				break;
 			}
-			nodeAux = nodeAux.getNext();
 		}
 		
 		return resp;
@@ -65,20 +72,45 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 
 	@Override
 	public void remove(T element) {
-		SingleLinkedListNode<T> nodeAux = head;
-		SingleLinkedListNode<T> elementAsNode = new SingleLinkedListNode<T>();
-		elementAsNode.setData(element);
-		boolean found = false;
-		
-		while (!isLastNode(nodeAux)) {
-			if (nodeAux.getNext().equals(elementAsNode)) {
+		if (this.search(element) != null) {
+			SingleLinkedListNode<T> nodeAux = head;
+			SingleLinkedListNode<T> elementAsNode = new SingleLinkedListNode<T>();
+			elementAsNode.setData(element);
+			boolean found = false;
+			
+			if (nodeAux.equals(elementAsNode)) {
 				found = true;
-				break;
+				if (isLastNode(head)) {
+					this.head.setData(null);
+				} else {
+					this.head = head.getNext();
+				}
+				return;
 			}
-		}
-		
-		if (found) {
-			nodeAux.setNext(null);
+			
+			while (!found) {
+				
+				 if (nodeAux.next == null && !found) {
+					break;
+				}
+				
+				if (nodeAux.getNext().equals(elementAsNode)) {
+					found = true;
+					break;
+				}
+				
+				if (!isLastNode(nodeAux)) {
+					nodeAux = nodeAux.getNext();
+				}
+			}
+			
+			if (found) {
+				if (nodeAux.getNext().hasNext()) {
+					nodeAux.setNext(nodeAux.getNext().getNext());
+				} else {
+				nodeAux.setNext(null);
+				}
+			}
 		}
 	}
 

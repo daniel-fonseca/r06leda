@@ -25,17 +25,77 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 			}
 		}
 	}
-
+	
+	@Override
+	public void remove(T element) {
+		SingleLinkedListNode<T> nodeAux = head;
+		SingleLinkedListNode<T> elementAsNode = new SingleLinkedListNode<T>();
+		elementAsNode.setData(element);
+		boolean found = false;
+		
+		if (nodeAux.equals(elementAsNode)) {
+			found = true;
+			if (isLastNode(head)) {
+				this.head.setData(null);
+				this.last = null;
+			} else {
+				this.head = head.getNext();
+			}
+			return;
+		}
+		
+		while (!found) {
+			
+			 if (nodeAux.next == null && !found) {
+				break;
+			}
+			
+			if (nodeAux.getNext().equals(elementAsNode)) {
+				found = true;
+				break;
+			}
+			
+			if (!isLastNode(nodeAux)) {
+				nodeAux = nodeAux.getNext();
+			}
+		}
+		
+		if (found) {
+			if (nodeAux.getNext().hasNext()) {
+				nodeAux.setNext(nodeAux.getNext().getNext());
+			} else {
+			nodeAux.setNext(null);
+			}
+		}
+	}
+	
+	@Override
+	public void insert(T element) {
+		DoubleLinkedListNode<T> newNode = new DoubleLinkedListNode<T>();
+		newNode.setData(element);
+		if (this.isEmpty()) {
+			head = newNode;
+			last = newNode;
+		} else {
+			convertNodes();
+			this.last.setNext(newNode);
+			newNode.setPrevious(this.last);
+			this.last = newNode;
+		}
+	}
+	
 	@Override
 	public void removeFirst() {
 		if (size() == 1) {
-			this.setHead(null);
+			this.setHead(new SingleLinkedListNode<T>(null, null));
 			this.setLast(null);
 		} else if (size() > 1) {
 			if (!hasOnlyDoubleNodes()) {
 				convertNodes();
 			}
-			DoubleLinkedListNode<T> nextFromHead = (DoubleLinkedListNode<T>) this.getHead().getNext();
+			DoubleLinkedListNode<T> nextFromHead = new DoubleLinkedListNode<T>();
+			nextFromHead.setData(this.getHead().getNext().getData());
+			nextFromHead.setNext(this.getHead().getNext().getNext());
 			nextFromHead.setPrevious(null);
 			this.setHead(nextFromHead);
 		}

@@ -60,5 +60,9 @@ public class SingleLinkedListNode<T> {
 	public void setNext(SingleLinkedListNode<T> next) {
 		this.next = next;
 	}
+	
+	protected boolean hasNext() {
+		return next != null;
+	}
 
 }
